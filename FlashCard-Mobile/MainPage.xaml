@@ -1,7 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:FlashCard_Mobile.ModelView"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
              x:Class="FlashCard_Mobile.MainPage">
+
+    <ContentPage.BindingContext>
+        <viewModel:FlashCardsMVVM x:Name="vm" />
+    </ContentPage.BindingContext>
 
     <ScrollView>
         <VerticalStackLayout>
@@ -14,18 +20,49 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
+            
+            
 
-            <StackLayout >
-                <Label Text="Votre List" FontSize="20"/>
-                <Label FontSize="20">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="200" TextColor="#1C2541" FontFamily="Kanit"/>
-                            <Span Text=" terme(s)" TextColor="#5BC0BE" FontFamily="Kanit"/>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </StackLayout>
+            <Border StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="300">
+                
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding moveToCardPageCommand}"/>
+                </Border.GestureRecognizers>
+                
+                <StackLayout BackgroundColor="#1C2541"  Padding="10, 20">
+                    <Label Text="Votre Liste" FontSize="20" TextColor="#5BC0BE"/>
+                    <Label FontSize="20">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding Cards.Count}" TextColor="#5BC0BE" FontFamily="Kanit"/>
+                                <Span Text=" terme(s)" TextColor="#6FFFE9" FontFamily="Kanit" FontAttributes="Bold"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </Border>
+
+            <FlexLayout HorizontalOptions="Center" WidthRequest="300" JustifyContent="SpaceBetween" Margin="0, 30">
+                <Border StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="130" HeightRequest="100">
+                    <Button Text="Ajouter" FontSize="20" BackgroundColor="#0B132B" TextColor="#5BC0BE" FontFamily="Kanit" Command="{Binding AddCardCommand}" CommandParameter="{Binding ValueStatic}" />
+                </Border>
+                <Border StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="130" HeightRequest="100">
+                    <Button Text="Modifier" FontSize="20" BackgroundColor="#0B132B" TextColor="#5BC0BE" FontFamily="Kanit"/>
+                </Border>
+            </FlexLayout>
+
+            <Button WidthRequest="300" Text="Réviser" HeightRequest="50" BackgroundColor="#5BC0BE" FontSize="20" FontFamily="Kanit" TextColor="#0B132B"/>
+
+            <!--<CollectionView ItemsSource="{Binding Cards}" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <Label Text="{Binding Recto}" />
+                            <Label Text="{Binding Verso}" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>-->
         </VerticalStackLayout>
     </ScrollView>
 

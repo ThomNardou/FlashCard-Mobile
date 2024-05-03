@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:FlashCard_Mobile.ModelView"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             x:Class="FlashCard_Mobile.CardPage">
+
+    <ContentPage.BindingContext>
+        <viewModel:FlashCardsMVVM x:Name="vm" />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout>
+        <FlexLayout HorizontalOptions="Center" WidthRequest="400" JustifyContent="Center">
+            <Label Text="{Binding CurrentCard}" FontSize="25" FontFamily="Kanit" FontAttributes="Bold,Italic" WidthRequest="33" Margin="10,0"/>
+            <Label Text="/" FontSize="25" FontFamily="Kanit" FontAttributes="Bold,Italic" WidthRequest="33"/>
+            <Label Text="{Binding Cards.Count}" FontSize="25" FontFamily="Kanit" FontAttributes="Bold,Italic" WidthRequest="33" Margin="10,0"/>
+        </FlexLayout>
+
+        <Border StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="350" HeightRequest="350" Margin="0, 50">
+
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ChangeCardFaceCommand}"/>
+            </Border.GestureRecognizers>
+
+            <StackLayout BackgroundColor="#1C2541" >
+                <Label Text="{Binding CardValue}" TextColor="#5BC0BE" HeightRequest="350" FontSize="30" HorizontalOptions="Center" VerticalTextAlignment="Center" FontFamily="Kanit" FontAttributes="Bold" />
+            </StackLayout>
+        </Border>
+
+        <FlexLayout WidthRequest="350" HorizontalOptions="Center" JustifyContent="SpaceBetween">
+            <Button Text="{mi:Cupertino Icon=Exclamationmark}" Command="{Binding ChangeCardCommand}" BackgroundColor="LightPink" WidthRequest="70" HeightRequest="70"/>
+            <Button Text="{mi:Fluent Icon=Checkmark12}" Command="{Binding ChangeCardCommand}" BackgroundColor="LightGreen" WidthRequest="70" HeightRequest="70"/>
+        </FlexLayout>
+    </VerticalStackLayout>
+</ContentPage>

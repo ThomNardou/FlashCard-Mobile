@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using MauiIcons.Fluent;
+using MauiIcons.Material;
+using MauiIcons.Cupertino;
 
 namespace FlashCard_Mobile
 {
@@ -14,7 +17,10 @@ namespace FlashCard_Mobile
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                     fonts.AddFont("Kanit-Light.ttf", "Kanit");
-                });
+                })
+                .UseFluentMauiIcons()
+                .UseMaterialMauiIcons()
+                .UseCupertinoMauiIcons();
 
 #if DEBUG
     		builder.Logging.AddDebug();
