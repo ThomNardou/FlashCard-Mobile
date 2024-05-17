@@ -44,14 +44,14 @@
 
             <FlexLayout HorizontalOptions="Center" WidthRequest="300" JustifyContent="SpaceBetween" Margin="0, 30">
                 <Border StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="130" HeightRequest="100">
-                    <Button Text="Ajouter" FontSize="20" BackgroundColor="#0B132B" TextColor="#5BC0BE" FontFamily="Kanit" Command="{Binding AddCardCommand}" CommandParameter="{Binding ValueStatic}" />
+                    <Button Text="Ajouter" FontSize="20" BackgroundColor="#0B132B" TextColor="#5BC0BE" FontFamily="Kanit" Command="{Binding GoAddCardPageCommand}" />
                 </Border>
                 <Border StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="130" HeightRequest="100">
                     <Button Text="Modifier" FontSize="20" BackgroundColor="#0B132B" TextColor="#5BC0BE" FontFamily="Kanit"/>
                 </Border>
             </FlexLayout>
 
-            <Button WidthRequest="300" Text="Réviser" HeightRequest="50" BackgroundColor="#5BC0BE" FontSize="20" FontFamily="Kanit" TextColor="#0B132B"/>
+            <Button WidthRequest="300" Text="Réviser" HeightRequest="50" BackgroundColor="#5BC0BE" FontSize="20" FontFamily="Kanit" TextColor="#0B132B" Command="{Binding moveToCardPageCommand}"/>
 
             <!--<CollectionView ItemsSource="{Binding Cards}" >
                 <CollectionView.ItemTemplate>

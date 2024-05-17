@@ -1,4 +1,6 @@
-﻿namespace FlashCard_Mobile
+﻿using FlashCard_Mobile.ModelView;
+
+namespace FlashCard_Mobile
 {
     public partial class MainPage : ContentPage
     {
@@ -7,6 +9,16 @@
         public MainPage()
         {
             InitializeComponent();
+
+            //var vme = BindingContext as FlashCardsMVVM;
+
+            //this.vm.Cards = vme.Cards;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            vm.RefreshCards();
         }
     }
 

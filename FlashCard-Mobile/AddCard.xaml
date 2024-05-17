@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:FlashCard_Mobile.ModelView"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
+             x:Class="FlashCard_Mobile.AddCard">
+
+    <ContentPage.BindingContext>
+        <viewModel:FlashCardsMVVM x:Name="vm" />
+    </ContentPage.BindingContext>
+    
+    <VerticalStackLayout>
+
+        <Label Text="Ajouter" HorizontalTextAlignment="Center" FontSize="30" Margin="0,30" FontFamily="Kanit" FontAttributes="Bold"/>
+
+        <FlexLayout Margin="0, 100" AlignItems="Center" Direction="Column">
+            <Label Text="Recto" WidthRequest="300" TextColor="#5BC0BE" FontFamily="Kanit" FontSize="20"/>
+            <Border StrokeShape="RoundRectangle 50,50">
+                <Entry Placeholder="Recto" WidthRequest="300" BackgroundColor="#1C2541" TextColor="White" HeightRequest="50" Text="{Binding RectoInput}"/>
+            </Border>
+        </FlexLayout>
+
+        <FlexLayout AlignItems="Center" Direction="Column">
+            <Label Text="Verso" WidthRequest="300" TextColor="#5BC0BE" FontFamily="Kanit" FontSize="20"/>
+            <Border StrokeShape="RoundRectangle 50,50">
+                <Entry Placeholder="Verso" WidthRequest="300" BackgroundColor="#1C2541" TextColor="White" HeightRequest="50" Text="{Binding VersoInput}"/>
+            </Border>
+        </FlexLayout>
+
+        <Button Text="Ajouter" BackgroundColor="#5BC0BE" TextColor="#1C2541" FontFamily="Kanit" FontSize="20" WidthRequest="100" Margin="0,50" Command="{Binding AddCardCommand}"/>
+
+
+    </VerticalStackLayout>
+</ContentPage>

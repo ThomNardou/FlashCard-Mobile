@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,9 +19,6 @@ namespace FlashCard_Mobile.ModelView
         private ObservableCollection<Card> cards = new ObservableCollection<Card>();
 
         [ObservableProperty]
-        private RectoVerso valueStatic = new RectoVerso() { R = "Coucuo", V = "Tiago" };
-
-        [ObservableProperty]
         private string cardValue = "Chargement en cours...";
 
         [ObservableProperty]
@@ -29,15 +27,36 @@ namespace FlashCard_Mobile.ModelView
         [ObservableProperty]
         bool isVerso = false;
 
+        [ObservableProperty]
+        private string rectoInput = "";
+
+        [ObservableProperty]
+        private string versoInput = "";
+
+        [ObservableProperty]
+        private int totalCards = 0;
+
+        public Action<int> TranslateCard {  get; set; }
+        private int angle = 0;
+
+
+
+
+
+
         public FlashCardsMVVM()
         {
             RefreshCards();
-            CardValue = Cards[CurrentCard - 1].Recto;
+            cardValue = cards[0].Recto;
         }
 
         [RelayCommand]
-        private async void AddCard(RectoVerso rv)
+        private async void AddCard()
         {
+            RectoVerso rv = new RectoVerso();
+            rv.R = RectoInput;
+            rv.V = VersoInput;
+
             if (rv.R == null || rv.V == null)
             {
                 await Shell.Current.DisplayAlert("Erreur Lors de l'ajout", "Merci de rentrer des valeur valide !", "OK");
@@ -57,9 +76,13 @@ namespace FlashCard_Mobile.ModelView
             }
 
             Cards.Add(card);
+
+            await Shell.Current.DisplayAlert("Réussite", "La carte à bien été ajouté", "continuer");
+
+            Debug.WriteLine(Cards.Count);
         }
 
-        private void RefreshCards(CardsContext? context = null)
+        public void RefreshCards(CardsContext? context = null)
         {
             Cards.Clear();
 
@@ -70,6 +93,17 @@ namespace FlashCard_Mobile.ModelView
                     Cards.Add(dbCard);
                 }
             }
+
+            
+
+            TotalCards = Cards.Count;
+
+        }
+
+        [RelayCommand]
+        private void Test()
+        {
+            Debug.WriteLine(RectoInput, VersoInput);
         }
 
         [RelayCommand]
@@ -79,7 +113,7 @@ namespace FlashCard_Mobile.ModelView
         }
 
         [RelayCommand]
-        private async void ChangeCard()
+        private void ChangeCard()
         {
             if (CurrentCard < Cards.Count)
             {
@@ -88,9 +122,14 @@ namespace FlashCard_Mobile.ModelView
             }
             else
             {
-                await Shell.Current.DisplayAlert("Vous avez terminé", "Bravo vous avez termnié votre liste !!", "Merci");
-                await Shell.Current.Navigation.PopAsync();
+                GoToLobby();
             }
+        }
+
+        private async void GoToLobby()
+        {
+            await Shell.Current.DisplayAlert("Vous avez terminé", "Bravo vous avez termnié votre liste !!", "Merci");
+            await Shell.Current.Navigation.PopAsync();
         }
 
         [RelayCommand]
@@ -106,6 +145,30 @@ namespace FlashCard_Mobile.ModelView
                 IsVerso = true;
                 CardValue = Cards[CurrentCard - 1].Verso;
             }
+        }
+
+        [RelayCommand]
+        private void RotateCard()
+        {
+            if (TranslateCard != null)
+            {
+                if (angle == 180)
+                {
+                    angle = 0;
+                }
+                else
+                {
+                    angle = 180;
+                }
+                
+                TranslateCard.Invoke(angle);
+            }
+        }
+
+        [RelayCommand]
+        private async void GoAddCardPage()
+        {
+            await Shell.Current.Navigation.PushAsync(new AddCard());
         }
     }
 }

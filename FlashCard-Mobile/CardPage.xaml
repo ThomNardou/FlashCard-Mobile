@@ -16,17 +16,24 @@
             <Label Text="/" FontSize="25" FontFamily="Kanit" FontAttributes="Bold,Italic" WidthRequest="33"/>
             <Label Text="{Binding Cards.Count}" FontSize="25" FontFamily="Kanit" FontAttributes="Bold,Italic" WidthRequest="33" Margin="10,0"/>
         </FlexLayout>
+        
+        
+        
+        
 
-        <Border StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="350" HeightRequest="350" Margin="0, 50">
+        <Border StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="350" HeightRequest="350" Margin="0, 50" x:Name="cardBorder">
 
             <Border.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding ChangeCardFaceCommand}"/>
+                <TapGestureRecognizer Command="{Binding RotateCardCommand}"/>
             </Border.GestureRecognizers>
 
             <StackLayout BackgroundColor="#1C2541" >
-                <Label Text="{Binding CardValue}" TextColor="#5BC0BE" HeightRequest="350" FontSize="30" HorizontalOptions="Center" VerticalTextAlignment="Center" FontFamily="Kanit" FontAttributes="Bold" />
+                <Label Text="{Binding CardValue}" TextColor="#5BC0BE" HeightRequest="350" FontSize="30" HorizontalOptions="Center" VerticalTextAlignment="Center" FontFamily="Kanit" FontAttributes="Bold" x:Name="CardContent" />
             </StackLayout>
         </Border>
+        
+        
 
         <FlexLayout WidthRequest="350" HorizontalOptions="Center" JustifyContent="SpaceBetween">
             <Button Text="{mi:Cupertino Icon=Exclamationmark}" Command="{Binding ChangeCardCommand}" BackgroundColor="LightPink" WidthRequest="70" HeightRequest="70"/>
