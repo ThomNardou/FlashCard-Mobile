@@ -17,15 +17,28 @@ namespace FlashCard_Mobile.ModelView
     {
         [ObservableProperty]
         private ObservableCollection<Card> cards = new ObservableCollection<Card>();
-
         [ObservableProperty]
-        private string cardValue = "Chargement en cours...";
+        private ObservableCollection<Card> unKnownCardList = new ObservableCollection<Card>();
+
+
+
 
         [ObservableProperty]
         private int currentCard = 1;
 
         [ObservableProperty]
+        private int updatedCardId = 0;
+
+        [ObservableProperty]
+        private int totalCards = 0;
+
+
+        [ObservableProperty]
         bool isVerso = false;
+
+
+        [ObservableProperty]
+        private string cardValue = "Chargement en cours...";
 
         [ObservableProperty]
         private string rectoInput = "";
@@ -34,21 +47,38 @@ namespace FlashCard_Mobile.ModelView
         private string versoInput = "";
 
         [ObservableProperty]
-        private int totalCards = 0;
+        private string oldRecto = "";
+
+        [ObservableProperty]
+        private string oldVerso = "";
+
+
 
         public Action<int> TranslateCard {  get; set; }
         private int angle = 0;
 
-
-
-
+        private bool firstTour = true;
 
 
         public FlashCardsMVVM()
         {
             RefreshCards();
-            cardValue = cards[0].Recto;
+
+            firstTour = true ;
+
+            if (Cards.Count > 0)
+            {
+                cardValue = cards[0].Recto;
+            }
+            else
+            {
+                CardValue = "Vous n'avez pas encore enregistrer de carte";
+            }
         }
+
+        ////////////////////////////////////////////// CRUD //////////////////////////////////////////////
+
+
 
         [RelayCommand]
         private async void AddCard()
@@ -82,6 +112,48 @@ namespace FlashCard_Mobile.ModelView
             Debug.WriteLine(Cards.Count);
         }
 
+        [RelayCommand]
+        private async void DeleteCard(int cardId)
+        {
+            using (var dbContext = new CardsContext())
+            {
+                await dbContext.Cards
+                    .Where(dbCard => dbCard.Id == cardId)
+                    .ExecuteDeleteAsync();
+
+                RefreshCards(dbContext);
+            }
+            await Shell.Current.DisplayAlert("Réussite", "Vous avez bien suprimmer la carte !!", "OK");
+        }
+
+        [RelayCommand]
+        private async void UpdateCard()
+        {
+
+
+            if (RectoInput == "") { RectoInput = OldRecto; return; }
+            if (VersoInput == "") { VersoInput = OldVerso; return; }
+            
+            using (var dbContext = new CardsContext())
+            {
+                await dbContext.Cards
+                    .Where(dbCard => dbCard.Id == UpdatedCardId)
+                    .ExecuteUpdateAsync(setter => setter.SetProperty(dbCard => dbCard.Recto, RectoInput).SetProperty(dbCard => dbCard.Verso, VersoInput));
+
+                RefreshCards(dbContext);
+            }
+
+            await Shell.Current.DisplayAlert("Réussite", "Vous avez bien modifier la carte !!", "OK");
+            await Shell.Current.Navigation.PopAsync();
+            
+        }
+
+
+
+        ////////////////////////////////////////////// OTHER //////////////////////////////////////////////
+
+
+
         public void RefreshCards(CardsContext? context = null)
         {
             Cards.Clear();
@@ -94,56 +166,65 @@ namespace FlashCard_Mobile.ModelView
                 }
             }
 
-            
-
             TotalCards = Cards.Count;
 
+            //CardValue = Cards[0].Recto;
+
         }
 
-        [RelayCommand]
-        private void Test()
-        {
-            Debug.WriteLine(RectoInput, VersoInput);
-        }
 
         [RelayCommand]
-        private void moveToCardPage()
+        private void ChangeCard(bool isKnow)
         {
-            Shell.Current.Navigation.PushAsync(new CardPage());
-        }
 
-        [RelayCommand]
-        private void ChangeCard()
-        {
-            if (CurrentCard < Cards.Count)
+            if (!isKnow) { UnKnownCardList.Add(Cards[CurrentCard - 1]); }
+            else
+            {
+                
+            }
+
+            if (CurrentCard < TotalCards)
             {
                 CurrentCard += 1;
-                CardValue = Cards[CurrentCard - 1].Recto;
+                
+
+                if (firstTour)
+                {
+                    CardValue = Cards[CurrentCard - 1].Recto;
+                }
+                else
+                {
+                    CardValue = UnKnownCardList[CurrentCard - 1].Recto;
+                }
+
             }
             else
             {
-                GoToLobby();
+                CurrentCard = 1;
+                firstTour = false;
+                TotalCards = UnKnownCardList.Count;
             }
         }
 
-        private async void GoToLobby()
-        {
-            await Shell.Current.DisplayAlert("Vous avez terminé", "Bravo vous avez termnié votre liste !!", "Merci");
-            await Shell.Current.Navigation.PopAsync();
-        }
 
         [RelayCommand]
         private void ChangeCardFace()
         {
-            if (IsVerso)
+            if (Cards.Count > 0)
             {
-                IsVerso = false;
-                CardValue = Cards[CurrentCard - 1].Recto;
-            }
-            else
-            {
-                IsVerso = true;
-                CardValue = Cards[CurrentCard - 1].Verso;
+                if (IsVerso)
+                {
+                    IsVerso = false;
+                    
+                    if(firstTour) { CardValue = Cards[CurrentCard - 1].Recto; }
+                    else { CardValue = UnKnownCardList[CurrentCard - 1].Recto; }
+                }
+                else
+                {
+                    IsVerso = true;
+                    if (firstTour) { CardValue = Cards[CurrentCard - 1].Verso; }
+                    else { CardValue = UnKnownCardList[CurrentCard - 1].Verso; }
+                }
             }
         }
 
@@ -165,10 +246,41 @@ namespace FlashCard_Mobile.ModelView
             }
         }
 
+
+
+        ////////////////////////////////////////////// NAVIGATION //////////////////////////////////////////////
+        
+
+
+        [RelayCommand]
+        private void moveToCardPage()
+        {
+            Shell.Current.Navigation.PushAsync(new CardPage());
+        }
+
         [RelayCommand]
         private async void GoAddCardPage()
         {
             await Shell.Current.Navigation.PushAsync(new AddCard());
+        }
+
+        [RelayCommand]
+        private async void GoAllCardsPage()
+        {
+            await Shell.Current.Navigation.PushAsync(new AllCard());
+        }
+
+        [RelayCommand]
+        private async void GoToLobby()
+        {
+            await Shell.Current.DisplayAlert("Vous avez terminé", "Bravo vous avez termnié votre liste !!", "Merci");
+            await Shell.Current.Navigation.PopAsync();
+        }
+
+        [RelayCommand]
+        private async void GoToUpdatePage(Card card)
+        {
+            await Shell.Current.Navigation.PushAsync(new UpdatePage(card.Id, card.Recto, card.Verso));
         }
     }
 }

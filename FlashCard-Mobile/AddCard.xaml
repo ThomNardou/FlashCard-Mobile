@@ -15,16 +15,12 @@
 
         <FlexLayout Margin="0, 100" AlignItems="Center" Direction="Column">
             <Label Text="Recto" WidthRequest="300" TextColor="#5BC0BE" FontFamily="Kanit" FontSize="20"/>
-            <Border StrokeShape="RoundRectangle 50,50">
-                <Entry Placeholder="Recto" WidthRequest="300" BackgroundColor="#1C2541" TextColor="White" HeightRequest="50" Text="{Binding RectoInput}"/>
-            </Border>
+            <Entry Placeholder="Recto" WidthRequest="300" TextColor="Black" HeightRequest="50" Text="{Binding RectoInput}"/>
         </FlexLayout>
 
         <FlexLayout AlignItems="Center" Direction="Column">
             <Label Text="Verso" WidthRequest="300" TextColor="#5BC0BE" FontFamily="Kanit" FontSize="20"/>
-            <Border StrokeShape="RoundRectangle 50,50">
-                <Entry Placeholder="Verso" WidthRequest="300" BackgroundColor="#1C2541" TextColor="White" HeightRequest="50" Text="{Binding VersoInput}"/>
-            </Border>
+            <Entry Placeholder="Verso" WidthRequest="300" TextColor="Black" HeightRequest="50" Text="{Binding VersoInput}"/>
         </FlexLayout>
 
         <Button Text="Ajouter" BackgroundColor="#5BC0BE" TextColor="#1C2541" FontFamily="Kanit" FontSize="20" WidthRequest="100" Margin="0,50" Command="{Binding AddCardCommand}"/>

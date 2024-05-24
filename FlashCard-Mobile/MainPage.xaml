@@ -47,7 +47,7 @@
                     <Button Text="Ajouter" FontSize="20" BackgroundColor="#0B132B" TextColor="#5BC0BE" FontFamily="Kanit" Command="{Binding GoAddCardPageCommand}" />
                 </Border>
                 <Border StrokeShape="RoundRectangle 10,10,10,10" WidthRequest="130" HeightRequest="100">
-                    <Button Text="Modifier" FontSize="20" BackgroundColor="#0B132B" TextColor="#5BC0BE" FontFamily="Kanit"/>
+                    <Button Text="Liste" FontSize="20" BackgroundColor="#0B132B" TextColor="#5BC0BE" FontFamily="Kanit" Command="{Binding GoAllCardsPageCommand}"/>
                 </Border>
             </FlexLayout>
 

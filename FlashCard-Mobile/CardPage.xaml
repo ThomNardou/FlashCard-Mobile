@@ -14,7 +14,7 @@
         <FlexLayout HorizontalOptions="Center" WidthRequest="400" JustifyContent="Center">
             <Label Text="{Binding CurrentCard}" FontSize="25" FontFamily="Kanit" FontAttributes="Bold,Italic" WidthRequest="33" Margin="10,0"/>
             <Label Text="/" FontSize="25" FontFamily="Kanit" FontAttributes="Bold,Italic" WidthRequest="33"/>
-            <Label Text="{Binding Cards.Count}" FontSize="25" FontFamily="Kanit" FontAttributes="Bold,Italic" WidthRequest="33" Margin="10,0"/>
+            <Label Text="{Binding TotalCards}" FontSize="25" FontFamily="Kanit" FontAttributes="Bold,Italic" WidthRequest="33" Margin="10,0"/>
         </FlexLayout>
         
         
@@ -36,8 +36,16 @@
         
 
         <FlexLayout WidthRequest="350" HorizontalOptions="Center" JustifyContent="SpaceBetween">
-            <Button Text="{mi:Cupertino Icon=Exclamationmark}" Command="{Binding ChangeCardCommand}" BackgroundColor="LightPink" WidthRequest="70" HeightRequest="70"/>
-            <Button Text="{mi:Fluent Icon=Checkmark12}" Command="{Binding ChangeCardCommand}" BackgroundColor="LightGreen" WidthRequest="70" HeightRequest="70"/>
+            <Button Text="{mi:Cupertino Icon=Exclamationmark}" Command="{Binding ChangeCardCommand}" BackgroundColor="LightPink" WidthRequest="70" HeightRequest="70">
+                <Button.CommandParameter>
+                    <s:Boolean>false</s:Boolean>
+                </Button.CommandParameter>
+            </Button>
+            <Button Text="{mi:Fluent Icon=Checkmark12}" Command="{Binding ChangeCardCommand}" BackgroundColor="LightGreen" WidthRequest="70" HeightRequest="70">
+                <Button.CommandParameter>
+                    <s:Boolean>true</s:Boolean>
+                </Button.CommandParameter>
+            </Button>
         </FlexLayout>
     </VerticalStackLayout>
 </ContentPage>
