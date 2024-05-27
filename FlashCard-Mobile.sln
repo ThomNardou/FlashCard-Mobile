@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashCard-Mobile", "FlashCard-Mobile\FlashCard-Mobile.csproj", "{EF1959FE-5801-4F9A-905B-AEB4BB61A4AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlashCard-Mobile", "FlashCard-Mobile\FlashCard-Mobile.csproj", "{EF1959FE-5801-4F9A-905B-AEB4BB61A4AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashCard-MobileTests", "FlashCard-MobileTests\FlashCard-MobileTests.csproj", "{10E07043-7FD1-48F2-8FCC-522179C3434C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,10 @@ Global
 		{EF1959FE-5801-4F9A-905B-AEB4BB61A4AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF1959FE-5801-4F9A-905B-AEB4BB61A4AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EF1959FE-5801-4F9A-905B-AEB4BB61A4AF}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{10E07043-7FD1-48F2-8FCC-522179C3434C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10E07043-7FD1-48F2-8FCC-522179C3434C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10E07043-7FD1-48F2-8FCC-522179C3434C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10E07043-7FD1-48F2-8FCC-522179C3434C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

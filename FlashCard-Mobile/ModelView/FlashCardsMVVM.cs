@@ -36,6 +36,9 @@ namespace FlashCard_Mobile.ModelView
         [ObservableProperty]
         bool isVerso = false;
 
+        [ObservableProperty]
+        bool allCardKnow = false;
+
 
         [ObservableProperty]
         private string cardValue = "Chargement en cours...";
@@ -51,6 +54,9 @@ namespace FlashCard_Mobile.ModelView
 
         [ObservableProperty]
         private string oldVerso = "";
+
+        [ObservableProperty]
+        DateTime startTime;
 
 
 
@@ -81,7 +87,7 @@ namespace FlashCard_Mobile.ModelView
 
 
         [RelayCommand]
-        private async void AddCard()
+        public async void AddCard()
         {
             RectoVerso rv = new RectoVerso();
             rv.R = RectoInput;
@@ -178,32 +184,40 @@ namespace FlashCard_Mobile.ModelView
         {
 
             if (!isKnow) { UnKnownCardList.Add(Cards[CurrentCard - 1]); }
-            else
-            {
-                
-            }
+
 
             if (CurrentCard < TotalCards)
             {
                 CurrentCard += 1;
-                
 
-                if (firstTour)
-                {
-                    CardValue = Cards[CurrentCard - 1].Recto;
-                }
-                else
-                {
-                    CardValue = UnKnownCardList[CurrentCard - 1].Recto;
-                }
-
+                CardValue = Cards[CurrentCard - 1].Recto;
             }
             else
             {
                 CurrentCard = 1;
-                firstTour = false;
-                TotalCards = UnKnownCardList.Count;
+                Cards.Clear();
+                Cards = new ObservableCollection<Card>(UnKnownCardList);
+                TotalCards = Cards.Count;
+
+                if (TotalCards == 0)
+                {
+                    Debug.WriteLine(StartTime);
+                    Debug.WriteLine(DateTime.Now);
+
+                    TimeSpan timeDiff = DateTime.Now.Subtract(StartTime);
+
+                    Shell.Current.DisplayAlert("BRAVO !!!", $"Vous avez terminer votre liste !! \nVous avez pris {Math.Round(timeDiff.TotalSeconds, 2)} Secondes !", "Merci");
+                    Shell.Current.Navigation.PopAsync();
+                }
+
+                UnKnownCardList.Clear();
             }
+        }
+
+        public void Default_ShakeDetected(object? sender, EventArgs e)
+        {
+            Debug.WriteLine("Shaked");
+            ChangeCard(false);
         }
 
 

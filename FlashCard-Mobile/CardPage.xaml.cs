@@ -13,9 +13,22 @@ public partial class CardPage : ContentPage
 
         var vm = BindingContext as FlashCardsMVVM;
         vm.TranslateCard = MoveCardAnimation;
+        vm.UnKnownCardList.Clear();
 
+        vm.StartTime = DateTime.Now;
+
+        Accelerometer.Default.ShakeDetected += vm.Default_ShakeDetected;
+        Accelerometer.Default.Start(SensorSpeed.Default);
 
     }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        Accelerometer.Default.Stop();
+    }
+
+
 
     private void MoveCardAnimation(int angle)
     {
